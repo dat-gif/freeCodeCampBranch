@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "@comment proxy": "for dev testing, point to 'server'",
-  "proxy": "http://localhost:3200",
+  "proxy": "http://127.0.0.1:3001",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",

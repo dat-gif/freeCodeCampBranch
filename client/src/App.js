@@ -1,7 +1,11 @@
-import "./App.css";
+import "./bulma.css";
 import ReposComponent from "./components/ReposComponent";
 function App() {
-  return <ReposComponent />;
+  return (
+    <main className="container">
+      <ReposComponent />
+    </main>
+  );
 }
 
 export default App;

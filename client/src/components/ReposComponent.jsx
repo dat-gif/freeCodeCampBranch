@@ -4,6 +4,7 @@ import Card from "./Card";
 import { Languages } from "../constants/repo";
 import Button from "./Button";
 import { uid } from "uid";
+import axios from "axios";
 
 const ReposComponent = () => {
   const [reposData, setReposData] = useState([]);
@@ -24,7 +25,18 @@ const ReposComponent = () => {
     setFilterBy(languages[lang]);
   };
 
-  const getExtraInfo = ({}) => {};
+  const getExtraInfo = async ({ commits_url, comments_url }) => {
+    const commitInfo = await axios
+      .get("https://api.github.com/repos/freeCodeCamp/.github/commits")
+      .then(({ data }) => {
+        const commitInfo = data[0];
+        return {
+          author: commitInfo.commit.author.name,
+          date: commitInfo.commit.author.date,
+          message: commitInfo.commit.message,
+        };
+      });
+  };
 
   useEffect(() => {
     clientAxios
@@ -53,7 +65,7 @@ const ReposComponent = () => {
 
       <hr />
       {displayRepo.map((repo) => (
-        <Card {...repo} key={uid()} />
+        <Card {...repo} key={uid()} onClickFn={getExtraInfo} />
       ))}
     </div>
   );

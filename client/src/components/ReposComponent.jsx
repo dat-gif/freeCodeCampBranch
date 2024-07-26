@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { clientAxios } from "../util/axios";
 import Card from "./Card";
-import { Languages } from "../constants/repo";
+import { ReposEnum } from "../constants/repo";
 import Button from "./Button";
 import { uid } from "uid";
 import axios from "axios";
@@ -10,13 +10,14 @@ const ReposComponent = () => {
   const [reposData, setReposData] = useState([]);
   const [displayRepo, setDisplayRepo] = useState([]);
   const [filterBy, setFilterBy] = useState("");
+  const [expandInfo, setExpandInfo] = useState({});
 
   const languages = {};
   reposData.forEach((repo) => {
     languages[`${repo.language}`] = repo.language;
   });
   delete languages[null];
-  languages[Languages.NONE_LANG] = null;
+  languages[ReposEnum.NONE_LANG] = null;
 
   const onFilter = (lang) => {
     setDisplayRepo(
@@ -25,17 +26,27 @@ const ReposComponent = () => {
     setFilterBy(languages[lang]);
   };
 
-  const getExtraInfo = async ({ commits_url, comments_url }) => {
-    const commitInfo = await axios
-      .get("https://api.github.com/repos/freeCodeCamp/.github/commits")
-      .then(({ data }) => {
-        const commitInfo = data[0];
-        return {
-          author: commitInfo.commit.author.name,
-          date: commitInfo.commit.author.date,
-          message: commitInfo.commit.message,
-        };
-      });
+  // const getExtraInfo = async ({ url, index }) => {
+  //   const commitInfo = await axios.get(`${url}/commits`).then(({ data }) => ({
+  //     author: data[0].commit.author.name,
+  //     date: data[0].commit.author.date,
+  //     message: data[0].commit.message,
+  //   }));
+  //   return commitInfo;
+  // };
+
+  const getExtraInfo = async ({ url, index }) => {
+    if (reposData[index].hasOwnProperty(ReposEnum.EXTRA_INFO)) {
+      return;
+    }
+    reposData[index][ReposEnum.EXTRA_INFO] = await axios
+      .get(`${url}/commits`)
+      .then(({ data }) => ({
+        author: data[0].commit.author.name,
+        date: data[0].commit.author.date,
+        message: data[0].commit.message,
+      }));
+    setReposData([...reposData]);
   };
 
   useEffect(() => {
@@ -64,8 +75,13 @@ const ReposComponent = () => {
       </div>
 
       <hr />
-      {displayRepo.map((repo) => (
-        <Card {...repo} key={uid()} onClickFn={getExtraInfo} />
+      {displayRepo.map((repo, index) => (
+        <Card
+          {...repo}
+          key={repo.id}
+          index={index}
+          onPromiseClickFn={getExtraInfo}
+        />
       ))}
     </div>
   );

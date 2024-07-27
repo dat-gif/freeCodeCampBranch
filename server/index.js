@@ -1,7 +1,8 @@
-import express, { json } from "express";
+import express from "express";
 import axios from "axios";
 import cors from "cors";
 import dayjs from "dayjs";
+import mockData from "./data.json" assert { type: "json" };
 
 const app = express();
 const port = 3001;
@@ -33,7 +34,12 @@ app.get("/repos", async (req, res) => {
         res.send(reposData);
       })
       .catch((error) => {
-        throw Error(error);
+        if (error.response.status === 403) {
+          console.error(error);
+          res.setHeader("content-type", "application/json");
+          res.send(mockData.data);
+        }
+        console.error(error);
       });
   } catch (error) {
     console.error(error);

@@ -1,0 +1,40 @@
+.card {
+    box-shadow: rgba(244, 244, 244, 0.185) 0px 4px 12px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+
+.card-expand {
+    transition: max-height 0.25s ease;
+    max-height: 0px;
+    overflow-y: scroll;
+}
+
+.card-expand-open {
+    max-height: 500px !important;
+}
+
+.card-expand-open::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.card-expand-open {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.card-expand-close {
+    visibility: hidden;
+}
+
+.button-expand-open {
+    border-radius: 0%;
+}
+
+.button-expand-close {
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+}

@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "id": "mockrepo",
+      "name": "Error",
+      "description": "> This is mock data, if you see this, means freeCodeCamp API has hit rate limit request",
+      "full_name": "mockdata",
+      "language": null,
+      "url": ""
+    }
+  ]
+}

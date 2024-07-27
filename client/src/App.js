@@ -8,7 +8,7 @@ function App() {
         className="px-6 pt-6 has-text-weight-light is-family-code is-size-1 has-text-left"
         style={{ letterSpacing: "0.1.5rem" }}
       >
-        freeCodeCamp API...
+        freeCodeCamp Branch...
       </h1>
       <ReposComponent />
     </main>
